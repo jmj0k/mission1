@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+.small {
+	font-size: var(--small-size);
+}
+
+.logo {
+	margin-bottom: 10px;
+}
+
+.logo a {
+	max-width: 100%;
+	height: auto;
+}
+
+.main-nav ul {
+	margin: 1em 0 .5em;
+	text-align: left;
+}
+
+.main-nav li {
+	display: inline;
+}
+
+.main-nav a {
+	display: inline-block;
+	padding: .5em 1.5em;
+	transition: 0.5s;
+}
+
+.main-nav a:hover, .active {
+	background-color: var(--color-blue100);
+	color: var(--color-white);
+	border-radius: 5px;
+}
+

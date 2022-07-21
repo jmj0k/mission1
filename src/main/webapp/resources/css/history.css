@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.history-info-table {
+	width: inherit;
+	border: 1px solid var(--color-white);
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size: 0.6em;
+}
+
+.history-info-table td {
+	border: 1px solid var(--color-black);
+	overflow: hidden;
+	padding: 10px 5px;
+	word-break: normal;
+}
+
+.history-info-table th {
+	background-color: var(--color-blue100);
+	color: var(--color-white);
+	border: 1px solid var(--color-black);
+	font-weight: normal;
+	overflow: hidden;
+	padding: 10px 5px;
+	word-break: normal;
+}
+
+.history-info-table td, .history-info-table th {
+	height: 60px;
+	border-color: inherit;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.history-info-table .before {
+	text-align: center;
+	border-bottom: 1px solid var(--color-black);
+}

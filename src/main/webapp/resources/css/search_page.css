@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+    height: 20%;
+    background: var(--color-blue100);
+    border-radius: 10px;
+}
+
+.sub-nav ul {
+	margin: 0.5em 0 .5em;
+	text-align: left;
+}
+
+.sub-nav li {
+	display: inline;
+}
+
+.sub-nav a {
+	display: inline-block;
+	padding: .5em 1.5em;
+	transition: 0.5s;
+}
+
+.sub-nav a:hover {
+	background-color: var(--color-blue100);
+	color: var(--color-white);
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.wifi-info-table {
+	width: inherit;
+	border: 1px solid var(--color-white);
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size: 0.6em;
+}
+
+.wifi-info-table td {
+	border: 1px solid var(--color-black);
+	overflow: hidden;
+	padding: 10px 5px;
+	word-break: normal;
+}
+
+.wifi-info-table th {
+	background-color: var(--color-blue100);
+	color: var(--color-white);
+	border: 1px solid var(--color-black);
+	font-weight: normal;
+	overflow: hidden;
+	padding: 10px 5px;
+	word-break: normal;
+}
+
+.wifi-info-table td, .wifi-info-table th {
+	height: 70px;
+	width: calc(100% / 17);
+	word-break: break-all;
+	border-color: inherit;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.wifi-info-table .before {
+	text-align: center;
+	border-bottom: 1px solid var(--color-black);
+}

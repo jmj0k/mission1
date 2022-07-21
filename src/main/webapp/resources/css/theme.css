@@ -1,0 +1,15 @@
+@charset "UTF-8";
+/* Theme */
+:root{
+  /* 오타 수정 back -> black */
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  
+  --color-blue100: #0080ff;
+  --color-blue200: #0070ec;
+  --color-blue300: #2154a2;
+
+  --base-size: 10px;
+  --small-size: 1.3rem;
+  --font-family: 'Noto Sans KR', sans-serif;
+}
