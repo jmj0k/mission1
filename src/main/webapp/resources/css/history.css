@@ -36,3 +36,11 @@
 	text-align: center;
 	border-bottom: 1px solid var(--color-black);
 }
+
+.delete-btn, .search-idx-btn {
+	cursor: pointer;
+}
+.delete-btn:hover, .search-idx-btn:hover {
+	background-color: var(--color-light-blue100);
+	color: var(--color-black);
+}

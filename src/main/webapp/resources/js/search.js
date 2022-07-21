@@ -18,17 +18,17 @@ window.addEventListener('onbeforeunload', (e) => {
 	home_btn.classList.remove('active');
 })
 
-get_my_location_btn.addEventListener('click', function(e) {
+get_my_location_btn.addEventListener('click', (e) => {
 	navigator.geolocation.getCurrentPosition(function(pos) {
 	    let lat = pos.coords.latitude;
 	    let lnt = pos.coords.longitude;
-		
-	    lat_input.setAttribute('value', lat);
-	    lnt_input.setAttribute('value', lnt)
+	    
+	    lat_input.value = lat;
+	    lnt_input.value = lnt;
 	});
 });
 
-wifi_info_btn.addEventListener('click', function(e) {
+wifi_info_btn.addEventListener('click', (e) => {
 	let lat_val = lat_input.value;
 	let lnt_val = lnt_input.value;
 	if (lat_val == "" || lnt_val == "") {

@@ -43,7 +43,7 @@
 		<table class="wifi-info-table">
 			<thead>
 			  <tr>
-			    <th>거리</th>
+			    <th>거리 <br> (Km) </th>
 			    <th>관리번호</th>
 			    <th>자치구</th>
 			    <th>와이파이명</th>
@@ -67,11 +67,12 @@
 			</thead>
 			<tbody>
 				<% 
+					WifiDAO wifiDAO = new WifiDAO();
 					List<WifiDTO> results = (List<WifiDTO>)request.getAttribute("result");
 					if (results != null) {
 						for (WifiDTO result: results) {
 							out.write("<tr>");
-							out.write("<td> 거리 </td>");
+							out.write("<td>" + result.getDistance() +"</td>");
 							out.write("<td>" + result.getX_swifi_mgr_no() + "</td>");
 							out.write("<td>" + result.getX_swifi_wrdofc() + "</td>");
 							out.write("<td>" + result.getX_wifi_main_nm() + "</td>");

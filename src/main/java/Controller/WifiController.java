@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.HistoryDAO;
 import DAO.WifiDAO;
+import DTO.HistoryDTO;
 import DTO.WifiDTO;
 
 /**
@@ -34,6 +36,9 @@ public class WifiController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		 WifiDAO wifiDAO = new WifiDAO();
+		 HistoryDAO historyDAO = new HistoryDAO();
+		 
 		 String[] uri = req.getRequestURI().split("/wifi");
 		 String context = req.getContextPath();
 		 String command = uri.length < 2 ? uri[0] : uri[1];
@@ -41,6 +46,13 @@ public class WifiController extends HttpServlet {
 		 
 		 if (command.equals("/history")) {
 			 path = "/views/SearchHistory.jsp";
+			 try {
+				List<HistoryDTO> result = historyDAO.selectUserHistory();
+				req.setAttribute("result", result);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		 } else if (command.equals("/main") || command.equals("/")) {
 			 path = "/views/Search.jsp";
 		 } else if (command.equals("/get_wifi_info")) {
@@ -49,17 +61,32 @@ public class WifiController extends HttpServlet {
 			 path = "/views/Search.jsp";
 			 String lat = req.getParameter("lat");
 			 String lnt = req.getParameter("lnt");
-			 
-			 WifiDAO wifiDAO = new WifiDAO();
 			 try {
-				List<WifiDTO> result = wifiDAO.getNearbyWifi(Double.parseDouble(lat), Double.parseDouble(lnt));
+				 historyDAO.insertUserHistory(lat, lnt);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			 try {
+				List<WifiDTO> result = wifiDAO.selectNearbyWifi(Double.parseDouble(lat), Double.parseDouble(lnt));
 				req.setAttribute("result", result);
 			 } catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		 } else if (command.equals("/delete_history")) {
+			 path = "/views/SearchHistory.jsp";
+			 String idx = req.getParameter("idx");
+			 
+			 try {
+				historyDAO.deleteUserHistory(idx);
+				List<HistoryDTO> result = historyDAO.selectUserHistory();
+				req.setAttribute("result", result);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		 }
-		 
 		 RequestDispatcher dispatcher = req.getRequestDispatcher(path);
 		 dispatcher.forward(req, res);
 	}

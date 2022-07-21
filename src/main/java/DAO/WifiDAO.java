@@ -15,6 +15,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import DTO.HistoryDTO;
 import DTO.WifiDTO;
 import Util.DBConnection;
 import okhttp3.OkHttpClient;
@@ -27,14 +28,12 @@ public class WifiDAO {
 	private static String API_URL = "http://openapi.seoul.go.kr:8088/" + AUTH_KEY + "/json/TbPublicWifiInfo";
 	private static OkHttpClient client = new OkHttpClient();
 	
-	public WifiDAO() {
-		
-	}
+	public WifiDAO() {}
 	
 	/*---------------------------------- DB 테이블 명령 메소드 -------------------------------------*/
 	
 	// 공공 와이파이 정보 (api에서 받아온 값) 전체 삽입 메소드
-	public int publicWifiInsert(JsonArray jsonArray, Connection conn) throws SQLException {
+	public int insertPublicWifi(JsonArray jsonArray, Connection conn) throws SQLException {
 		/* 
 		 * 속도 향상을 위해 autocommit을 꺼두고 반복문이 끝나면 한 번에 커밋합니다. 
 		 * autocommit을 켜둘 경우 1분이 훨씬 넘게 소요됩니다. 
@@ -116,9 +115,9 @@ public class WifiDAO {
 		return count;
 	}
 	
-	// 근처 공공 와이파이 조회 메소드
 	
-	public List<WifiDTO> getNearbyWifi(double lat, double lnt) throws SQLException {
+	// 근처 공공 와이파이 조회 메소드
+	public List<WifiDTO> selectNearbyWifi(double lat, double lnt) throws SQLException {
 		List<WifiDTO> result = new LinkedList<>();
 		PreparedStatement pstmt = null;
 		String SQL = 
@@ -132,8 +131,10 @@ public class WifiDAO {
 		ResultSet resultSet = pstmt.executeQuery();
 		
 		while (resultSet.next()) {
+			String distanceData = distance(lat, lnt, Double.parseDouble(resultSet.getString("lat")), Double.parseDouble(resultSet.getString("lnt"))); 
 			WifiDTO wifiDTO = new WifiDTO(
-					resultSet.getString("x_swifi_mgr_no")
+					distanceData
+					, resultSet.getString("x_swifi_mgr_no")
 					, resultSet.getString("x_swifi_wrdofc")
 					, resultSet.getString("x_wifi_main_nm")
 					, resultSet.getString("x_wifi_addr1")
@@ -236,7 +237,7 @@ public class WifiDAO {
 					}
 				}
 				try {
-					result += publicWifiInsert(jsonArray, conn);
+					result += insertPublicWifi(jsonArray, conn);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -244,4 +245,22 @@ public class WifiDAO {
 		}
 		return result;
 	}
+	private static String distance(double lat1, double lon1, double lat2, double lon2) {
+		double theta = lon1 - lon2;
+	    double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+	         
+	    dist = Math.acos(dist);
+	    dist = rad2deg(dist);
+	    dist = dist * 60 * 1.1515;
+	    dist = dist * 1.609344;
+	    dist = Math.round(dist * 10000) / 10000.0;
+
+	    return String.valueOf(dist);
+	}
+	private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+	private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
+    }
 }

@@ -1,3 +1,5 @@
+<%@page import="DTO.HistoryDTO"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -25,9 +27,30 @@
 			  </tr>
 			</thead>
 			<tbody>
-				<td class="before" colspan="5">
-					위치 정보를 입력한 후에 조회해 주세요.
-				</td>
+				<% 
+					List<HistoryDTO> results = (List<HistoryDTO>)request.getAttribute("result");
+					
+					if (results != null && results.size() > 0) {
+						for (int i = results.size() - 1; i >= 0; i--) {
+							out.write("<tr>");
+							out.write("<td class='search-idx-btn' data-lat='" 
+								+ results.get(i).getLat() 
+								+ "' data-lnt='"
+								+ results.get(i).getLnt()
+								+ "'>" 
+								+ (i + 1) 
+								+ "</td>");
+							out.write("<td>" + results.get(i).getLat() + "</td>");
+							out.write("<td>" + results.get(i).getLnt() + "</td>");
+							out.write("<td>" + results.get(i).getTime() + "</td>");
+							out.write("<td class='delete-btn' data-idx='"+ results.get(i).getIdx() +"'> 삭제 </td>");
+							out.write("</tr>");
+							results.get(i);
+						}
+					} else {
+						out.write("<td class='before' colspan='5'> 현재 저장된 값이 존재하지 않습니다. </td>");
+					}
+				%>
 			</tbody>
 		</table>
 	</div>

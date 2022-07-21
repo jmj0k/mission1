@@ -1,6 +1,7 @@
 package DTO;
 
 public class WifiDTO {
+	private String distance;
 	private String x_swifi_mgr_no; // 관리번호
 	private String x_swifi_wrdofc; // 자치구
 	private String x_wifi_main_nm; // 와이파이명
@@ -18,6 +19,12 @@ public class WifiDTO {
 	private String lnt; // y좌표
 	private String work_dttm; // 작업일자
 	
+	public String getDistance() {
+		return distance;
+	}
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
 	public String getX_swifi_mgr_no() {
 		return x_swifi_mgr_no;
 	}
@@ -114,11 +121,12 @@ public class WifiDTO {
 	public void setWork_dttm(String work_dttm) {
 		this.work_dttm = work_dttm;
 	}
-	public WifiDTO(String x_swifi_mgr_no, String x_swifi_wrdofc, String x_wifi_main_nm, String x_wifi_addr1,
-			String x_wifi_addr2, String x_wifi_instl_floor, String x_wifi_instl_ty, String x_wifi_instl_mby,
-			String x_wifi_svc_se, String x_wifi_cmcwr, String x_wifi_cnstc_year, String x_wifi_inout_door,
-			String x_wifi_remars3, String lat, String lnt, String work_dttm) {
+	public WifiDTO(String distance, String x_swifi_mgr_no, String x_swifi_wrdofc, String x_wifi_main_nm,
+			String x_wifi_addr1, String x_wifi_addr2, String x_wifi_instl_floor, String x_wifi_instl_ty,
+			String x_wifi_instl_mby, String x_wifi_svc_se, String x_wifi_cmcwr, String x_wifi_cnstc_year,
+			String x_wifi_inout_door, String x_wifi_remars3, String lat, String lnt, String work_dttm) {
 		super();
+		this.distance = distance;
 		this.x_swifi_mgr_no = x_swifi_mgr_no;
 		this.x_swifi_wrdofc = x_swifi_wrdofc;
 		this.x_wifi_main_nm = x_wifi_main_nm;
@@ -136,4 +144,6 @@ public class WifiDTO {
 		this.lnt = lnt;
 		this.work_dttm = work_dttm;
 	}
+	
+	
 }
