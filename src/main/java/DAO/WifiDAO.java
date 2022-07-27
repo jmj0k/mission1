@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,11 +36,7 @@ public class WifiDAO {
 	
 	// 공공 와이파이 정보 (api에서 받아온 값) 전체 삽입 메소드
 	public int insertPublicWifi(JsonArray jsonArray, Connection conn) throws SQLException {
-		/* 
-		 * 속도 향상을 위해 autocommit을 꺼두고 반복문이 끝나면 한 번에 커밋합니다. 
-		 * autocommit을 켜둘 경우 1분이 훨씬 넘게 소요됩니다. 
-		 * 
-		 */
+		
 		conn.setAutoCommit(false);
 		PreparedStatement pstmt = null;
 		int count = 0;
@@ -48,6 +46,28 @@ public class WifiDAO {
 		String wifi_mgr_no, wifi_wrdofc, wifi_name, wifi_addr1, wifi_addr2
 		, wifi_floor, wifi_instl_ty, wifi_instl_mby, wifi_svc_se, wifi_cmcwr
 		, wifi_cnstc_year, wifi_inout_door, wifi_remars3, wifi_lat, wifi_lnt, work_dttm;
+		
+		String SQL = 
+				"INSERT OR REPLACE INTO PublicWifiInfoTable (" 
+				+ "x_swifi_mgr_no, "
+				+ "x_swifi_wrdofc, "
+				+ "x_wifi_main_nm, "
+				+ "x_wifi_addr1, "
+				+ "x_wifi_addr2, "
+				+ "x_wifi_instl_floor, "
+				+ "x_wifi_instl_ty, "
+				+ "x_wifi_instl_mby, "
+				+ "x_wifi_svc_se, "
+				+ "x_wifi_cmcwr, "
+				+ "x_wifi_cnstc_year, "
+				+ "x_wifi_inout_door, "
+				+ "x_wifi_remars3, "
+				+ "lat, "
+				+ "lnt, "
+				+ "work_dttm)"
+				+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+	    pstmt = conn.prepareStatement(SQL);
 
 		for (int i = 0; i < jsonArray.size(); i++) {
 			
@@ -69,28 +89,6 @@ public class WifiDAO {
 		    wifi_lat = jsonArray.get(i).getAsJsonObject().get("LAT").getAsString();
 		    wifi_lnt = jsonArray.get(i).getAsJsonObject().get("LNT").getAsString();
 		    work_dttm = jsonArray.get(i).getAsJsonObject().get("WORK_DTTM").getAsString();
-    
-			String SQL = 
-					"INSERT OR REPLACE INTO PublicWifiInfoTable (" 
-					+ "x_swifi_mgr_no, "
-					+ "x_swifi_wrdofc, "
-					+ "x_wifi_main_nm, "
-					+ "x_wifi_addr1, "
-					+ "x_wifi_addr2, "
-					+ "x_wifi_instl_floor, "
-					+ "x_wifi_instl_ty, "
-					+ "x_wifi_instl_mby, "
-					+ "x_wifi_svc_se, "
-					+ "x_wifi_cmcwr, "
-					+ "x_wifi_cnstc_year, "
-					+ "x_wifi_inout_door, "
-					+ "x_wifi_remars3, "
-					+ "lat, "
-					+ "lnt, "
-					+ "work_dttm)"
-					+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			
-		    pstmt = conn.prepareStatement(SQL);
 		
 		    pstmt.setString(1, wifi_mgr_no);
 		    pstmt.setString(2, wifi_wrdofc);
@@ -109,8 +107,19 @@ public class WifiDAO {
 		    pstmt.setString(15, wifi_lat);
 		    pstmt.setString(16, work_dttm);
 		    
-		    count += pstmt.executeUpdate();
+		    pstmt.addBatch();
+		    pstmt.clearParameters();
+		    
+		    if ((i % 1000) == 0) {
+		    	int bCnt[] = pstmt.executeBatch();
+		    	count += bCnt.length;
+		    	pstmt.clearBatch();
+		    	conn.commit();
+		    }
 		}
+		int bCnt[] = pstmt.executeBatch();
+		count += bCnt.length;
+		pstmt.clearBatch();
 	    conn.commit();
 		return count;
 	}
@@ -121,14 +130,12 @@ public class WifiDAO {
 		List<WifiDTO> result = new LinkedList<>();
 		PreparedStatement pstmt = null;
 		String SQL = 
-				"SELECT * FROM PublicWifiInfoTable"
-				+ " ORDER BY ABS(lat - " + lat + ") * ABS(lat - " + lat + ")"
-				+ " + ABS(lnt - " + lnt + ") * ABS(lnt -" +  lnt + ")"
-				+ " LIMIT 20";
-
+				"SELECT * FROM PublicWifiInfoTable";
+		
 		Connection conn = DBConnection.getConnection();
 		pstmt = conn.prepareStatement(SQL);
 		ResultSet resultSet = pstmt.executeQuery();
+		
 		
 		while (resultSet.next()) {
 			String distanceData = distance(lat, lnt, Double.parseDouble(resultSet.getString("lat")), Double.parseDouble(resultSet.getString("lnt"))); 
@@ -154,7 +161,8 @@ public class WifiDAO {
 			result.add(wifiDTO);
 		}
 		
-		return result;
+        result.sort((x, y) -> Double.compare(Double.parseDouble(x.getDistance()), Double.parseDouble(y.getDistance())));
+		return (new ArrayList<>(result.subList(0, 20)));
 	}
 	
 	/*----------------------------------- 계산 메소드들 ----------------------------------------*/
@@ -253,7 +261,7 @@ public class WifiDAO {
 	    dist = rad2deg(dist);
 	    dist = dist * 60 * 1.1515;
 	    dist = dist * 1.609344;
-	    dist = Math.round(dist * 10000) / 10000.0;
+	    dist = Math.ceil(dist * 10000) / 10000.0;
 
 	    return String.valueOf(dist);
 	}

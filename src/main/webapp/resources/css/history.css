@@ -16,7 +16,7 @@
 }
 
 .history-info-table th {
-	background-color: var(--color-blue100);
+	background-color: var(--color-blue300);
 	color: var(--color-white);
 	border: 1px solid var(--color-black);
 	font-weight: normal;
@@ -41,6 +41,6 @@
 	cursor: pointer;
 }
 .delete-btn:hover, .search-idx-btn:hover {
-	background-color: var(--color-light-blue100);
-	color: var(--color-black);
+	background-color: var(--color-blue300);
+	color: var(--color-white);
 }

@@ -29,7 +29,7 @@
 }
 
 .main-nav a:hover, .active {
-	background-color: var(--color-blue100);
+	background-color: var(--color-blue300);
 	color: var(--color-white);
 	border-radius: 5px;
 }

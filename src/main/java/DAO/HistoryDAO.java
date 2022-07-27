@@ -11,12 +11,12 @@ import DTO.HistoryDTO;
 import Util.DBConnection;
 
 public class HistoryDAO {
+	
+	Connection conn = DBConnection.getConnection();
+	PreparedStatement pstmt = null;
 
 	// 사용자 히스토리 삭제 메소드
 	public int deleteUserHistory (String idx) throws SQLException {
-		Connection conn = DBConnection.getConnection();
-		PreparedStatement pstmt = null;
-		
 		String SQL = "DELETE FROM History WHERE idx = ?";
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -29,8 +29,6 @@ public class HistoryDAO {
 	}
 	// 사용자 히스토리 삽입 메소드
 	public int insertUserHistory(String lat, String lnt) throws SQLException {
-		Connection conn = DBConnection.getConnection();
-		PreparedStatement pstmt = null;
 		// 복합 유니크 키로 설정을 해둬서 조합이 중복되면 들어가지 않음
 		String SQL = "INSERT INTO History (lat, lnt) VALUES(?, ?)";
 		try {
@@ -45,8 +43,6 @@ public class HistoryDAO {
 	}
 	// 사용자 히스토리 선택 메소드
 	public List<HistoryDTO> selectUserHistory() throws SQLException {
-		Connection conn = DBConnection.getConnection();
-		PreparedStatement pstmt = null;
 		List<HistoryDTO> result = new LinkedList<>();
 		
 		String SQL = "SELECT * FROM History";

@@ -20,7 +20,7 @@
 }
 
 .pop-up:hover {
-	background-color: var(--color-blue100);
+	background-color: var(--color-blue300);
 	color: var(--color-white);
 }
 .pop-up .text {

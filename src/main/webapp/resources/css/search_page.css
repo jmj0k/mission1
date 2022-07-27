@@ -6,7 +6,7 @@ body::-webkit-scrollbar {
 
 body::-webkit-scrollbar-thumb {
     height: 20%;
-    background: var(--color-blue100);
+    background: var(--color-blue300);
     border-radius: 10px;
 }
 
@@ -26,7 +26,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .sub-nav a:hover {
-	background-color: var(--color-blue100);
+	background-color: var(--color-blue300);
 	color: var(--color-white);
 	border-radius: 5px;
 	cursor: pointer;
@@ -48,7 +48,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .wifi-info-table th {
-	background-color: var(--color-blue100);
+	background-color: var(--color-blue300);
 	color: var(--color-white);
 	border: 1px solid var(--color-black);
 	font-weight: normal;
