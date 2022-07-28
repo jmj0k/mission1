@@ -15,7 +15,7 @@ public class HistoryDAO {
 	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
 
-	// »ç¿ëÀÚ È÷½ºÅä¸® »èÁ¦ ¸Ş¼Òµå
+	// íˆìŠ¤í† ë¦¬ ì‚­ì œ ë©”ì†Œë“œ
 	public int deleteUserHistory (String idx) throws SQLException {
 		String SQL = "DELETE FROM History WHERE idx = ?";
 		try {
@@ -27,9 +27,9 @@ public class HistoryDAO {
 		
 		return pstmt.executeUpdate();
 	}
-	// »ç¿ëÀÚ È÷½ºÅä¸® »ğÀÔ ¸Ş¼Òµå
+	// íˆìŠ¤í† ë¦¬ ì‚½ì… ë©”ì†Œë“œ
 	public int insertUserHistory(String lat, String lnt) throws SQLException {
-		// º¹ÇÕ À¯´ÏÅ© Å°·Î ¼³Á¤À» ÇØµÖ¼­ Á¶ÇÕÀÌ Áßº¹µÇ¸é µé¾î°¡Áö ¾ÊÀ½
+		// lat & lntëŠ” ë³µí•© ìœ ë‹ˆí¬í‚¤ë¡œ ì„¤ì •
 		String SQL = "INSERT INTO History (lat, lnt) VALUES(?, ?)";
 		try {
 			pstmt = conn.prepareStatement(SQL);
@@ -41,7 +41,7 @@ public class HistoryDAO {
 		
 		return pstmt.executeUpdate();
 	}
-	// »ç¿ëÀÚ È÷½ºÅä¸® ¼±ÅÃ ¸Ş¼Òµå
+	// ìœ ì € íˆìŠ¤í† ë¦¬ ì„ íƒ
 	public List<HistoryDTO> selectUserHistory() throws SQLException {
 		List<HistoryDTO> result = new LinkedList<>();
 		
