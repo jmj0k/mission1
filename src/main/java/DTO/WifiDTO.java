@@ -1,23 +1,23 @@
 package DTO;
 
 public class WifiDTO {
-	private String distance;
-	private String x_swifi_mgr_no; // °ü¸®¹øÈ£
-	private String x_swifi_wrdofc; // ÀÚÄ¡±¸
-	private String x_wifi_main_nm; // ¿ÍÀÌÆÄÀÌ¸í
-	private String x_wifi_addr1; // µµ·Î¸í ÁÖ¼Ò
-	private String x_wifi_addr2; // »ó¼¼ÁÖ¼Ò
-	private String x_wifi_instl_floor; // ¼³Ä¡À§Ä¡(Ãş)
-	private String x_wifi_instl_ty; // ¼³Ä¡À¯Çü
-	private String x_wifi_instl_mby; // ¼³Ä¡±â°ü
-	private String x_wifi_svc_se; // ¼­ºñ½º ±¸ºĞ
-	private String x_wifi_cmcwr; // ¸Á Á¾·ù
-	private String x_wifi_cnstc_year; // ¼³Ä¡³âµµ
-	private String x_wifi_inout_door;// ½Ç³»¿Ü±¸ºĞ 
-	private String x_wifi_remars3; //wifi Á¢¼ÓÈ¯°æ
-	private String lat; // xÁÂÇ¥
-	private String lnt; // yÁÂÇ¥
-	private String work_dttm; // ÀÛ¾÷ÀÏÀÚ
+	private String distance; // ê±°ë¦¬
+	private String x_swifi_mgr_no; // ê´€ë¦¬ë²ˆí˜¸
+	private String x_swifi_wrdofc; // ìì¹˜êµ¬
+	private String x_wifi_main_nm; // ì™€ì´íŒŒì´ëª…
+	private String x_wifi_addr1; // ë„ë¡œëª…ì£¼ì†Œ
+	private String x_wifi_addr2; // ìƒì„¸ì£¼ì†Œ
+	private String x_wifi_instl_floor; // ì„¤ì¹˜ìœ„ì¹˜(ì¸µ)
+	private String x_wifi_instl_ty; // ì„¤ì¹˜ìœ í˜•
+	private String x_wifi_instl_mby; // ì„¤ì¹˜ê¸°ê´€
+	private String x_wifi_svc_se; // ì„œë¹„ìŠ¤ ìœ í˜•
+	private String x_wifi_cmcwr; // ë§ì¢…ë¥˜
+	private String x_wifi_cnstc_year; // ì„¤ì¹˜ë…„ë„
+	private String x_wifi_inout_door;// ì‹¤ë‚´ì™¸êµ¬ë¶„ 
+	private String x_wifi_remars3; //wifi ì ‘ì†í™˜ê²½
+	private String lat; // xì¢Œí‘œ
+	private String lnt; // yì¢Œí‘œ
+	private String work_dttm; // ì‘ì—…ì¼ì
 	
 	public String getDistance() {
 		return distance;

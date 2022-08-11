@@ -1,7 +1,5 @@
 @charset "UTF-8";
-/* Theme */
 :root{
-  /* 오타 수정 back -> black */
   --color-white: #FFFFFF;
   --color-black: #000000;
   
